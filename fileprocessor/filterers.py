@@ -1,1 +1,1 @@
-"""Contains all Filterer classes."""
+"""Contains all built-in Filterer classes."""
