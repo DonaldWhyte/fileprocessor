@@ -18,7 +18,9 @@ class Filterer:
 	"""Filters lists of files based on some criteria."""
 
 	def filter(self, fileListing):
-		"""Filter list of files and return a list containin only the files that passed the filter.
+		"""Filter list of files and return a NEW list containing only the files that passed the filter.
+
+		NOTE: This should not alter the original list given.
 
 		Arguments:
 		fileListing -- A list containing the absolute paths of the

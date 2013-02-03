@@ -9,7 +9,8 @@ class MockFileSearcher:
 
 	def __init__(self):
 		self.fileLists = {
-			"root_dir" : [ "/path/to/stuff.txt", "/another_path/test.txt", "/programs/ls.bin" ],
+			"root_dir" : [ "/path/to/stuff.txt", "/another_path/test.txt",
+				"/programs/ls.bin", "/programs/cat.bin" ],
 			"empty_dir" : []
 		}
 
@@ -28,6 +29,16 @@ class MockFilterer:
 			pass
 		return fileList
 
+class MockFilterer2:
+
+	def filter(self, fileList):
+		fileList = list(fileList)
+		try:
+			fileList.remove("/programs/cat.bin")
+		except:
+			pass
+		return fileList		
+
 class MockDataExtractor:
 
 	def extract(self, filePath):
@@ -37,7 +48,7 @@ class TestFileProcessor(unittest.TestCase):
 
 	def setUp(self):
 		self.mockSearcher = MockFileSearcher()
-		self.mockFilterer = MockFilterer()
+		self.mockFilterer = [MockFilterer(), MockFilterer2()]
 		self.mockExtractor = MockDataExtractor()
 		self.fileProcessor = FileProcessor(self.mockSearcher,
 			self.mockFilterer, self.mockExtractor)

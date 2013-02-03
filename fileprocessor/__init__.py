@@ -32,21 +32,22 @@ class FileProcessor:
 
 	"""Harness for searching, filtering and extracting data from files."""
 
-	def __init__(self, searcher, filterer, extractor):
+	def __init__(self, searcher, filterers, extractor):
 		"""Construct new instance of FileProcessor.
 
 		Arguments:
 		searcher -- Object which searches the file system and returns
 					a list of all the files found. Should be an instance
 					of Searcher.
-		filterer -- Object which filters the file listing based on some
-					criteria. Should be an instance of Filterer.
+		filterers -- List of objects which filter the file listing based
+					 on some criteria. Objects should be instances of
+					 Filterer.
 		extractor -- Object which processes a single file and returns the
 					 desired data from it. Should be an instance of
 					 Extractor.
 		"""
 		self.searcher = searcher
-		self.filterer = filterer
+		self.filterers = filterers
 		self.extractor = extractor
 
 	def process(self, rootDirectory):
@@ -70,7 +71,8 @@ class FileProcessor:
 			raise IOError("Directory '{}' does not exist".format(rootDirectory))
 
 		fileListing = self.searcher.search(rootDirectory)
-		fileListing = self.filterer.filter(fileListing)
+		for filterer in self.filterers:
+			fileListing = filterer.filter(fileListing)
 		data = {}
 		for path in fileListing:
 			data[path] = self.extractor.extract(path)
