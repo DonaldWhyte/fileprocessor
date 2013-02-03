@@ -13,13 +13,15 @@ class MockFileSearcher:
 			"empty_dir" : []
 		}
 
-	def search(rootDirectory):
-		return self.fileList
+	def search(self, rootDirectory):
+		return self.fileLists[rootDirectory]
 
 class MockFilterer:
 
-	def filter(fileList):
+	def filter(self, fileList):
 		# Just remove a single FIXED file for the test
+		# NOTE: This must return a NEW list so we copy the given list!
+		fileList = list(fileList)
 		try:
 			fileList.remove("/programs/ls.bin")
 		except:
@@ -28,8 +30,8 @@ class MockFilterer:
 
 class MockDataExtractor:
 
-	def extract(filePath):
-		return self.filePath + ": PROCESSED"
+	def extract(self, filePath):
+		return filePath + ": PROCESSED"
 
 class TestFileProcessor(unittest.TestCase):
 
