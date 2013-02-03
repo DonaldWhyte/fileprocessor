@@ -1,4 +1,9 @@
 import unittest
+import sys
+import os
+sys.path.append(os.environ.get("PROJECT_ROOT_DIRECTORY", "."))
+
+from fileprocessor import FileProcessor
 
 class MockFileSearcher:
 
@@ -34,12 +39,19 @@ class TestFileProcessor(unittest.TestCase):
 		self.mockExtractor = MockDataExtractor()
 		self.fileProcessor = FileProcessor(self.mockSearcher,
 			self.mockFilterer, self.mockExtractor)
+		# Create empty directories just so the file processor
+		# doesn't comaplin when we test process()
+		os.mkdir("empty_dir")
+		os.mkdir("root_dir")
 
 	def tearDown(self):
 		self.mockSearcher = None
 		self.mockFilterer = None
 		self.mockExtractor = None
 		self.fileProcessor = None
+		# Delete created directories
+		os.rmdir("empty_dir")
+		os.rmdir("root_dir")
 
 	def test_constructor(self):
 		# Test valid arguments (use constructed object in setUp())
@@ -65,6 +77,3 @@ class TestFileProcessor(unittest.TestCase):
 		self.assertEqual(self.fileProcessor.process("empty_dir"), {})
 		# Test with files
 		self.assertEqual(self.fileProcessor.process("root_dir"), EXPECTED_DATA)
-
-if __name__ == "__main__":
-	unittest.main()
