@@ -35,7 +35,7 @@ class Extractor:
 		"""Extract data from the file with the given filename.
 
 		What this returns depends on what data is to be extracted.
-		This is determined by the concrete subclass of Extractor.
+		This is determined by the concrete subclasses of Extractor.
 
 		Arguments:
 		filename -- Name of the file to extract data from
