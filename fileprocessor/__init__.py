@@ -1,7 +1,9 @@
 """Main import for fileprocessing library. Contains main class for
 processing files."""
 
+import sys
 import os
+import collections
 
 
 # Done so importing modules from library is easier
@@ -50,8 +52,8 @@ class FileProcessor:
 		self.filterers = filterers
 		self.extractor = extractor
 
-	def process(self, rootDirectory):
-		"""Process a given directory of files in some way.
+	def process(self, rootDirectories):
+		"""Process one or more directories of files in some way.
 
 		Return a dictionary where the keys are the absolute paths
 		to the files and values are the data extracted from the
@@ -62,18 +64,29 @@ class FileProcessor:
 		given to the FileProcessor instance in the constructor.
 
 		Arguments:
-		rootDirectory -- Path to directory to search files in.
+		rootDirectories -- Either a string containing the path to one
+						  directory or a list containing multiple
+						  directories to process
 
 		"""
-		if not isinstance(rootDirectory, str):
-			raise TypeError("Path to root directory must be a string")
-		if not os.path.isdir(rootDirectory):
-			raise IOError("Directory '{}' does not exist".format(rootDirectory))
+		if isinstance(rootDirectories, str): # wrap single directory in a list
+			rootDirectories = [ rootDirectories ]
+		elif not isinstance(rootDirectories, collections.Iterable):
+			raise TypeError("Path to root directory must be a string or collection of strings")
 
-		fileListing = self.searcher.search(rootDirectory)
-		for filterer in self.filterers:
-			fileListing = filterer.filter(fileListing)
+		# Now process each directory, keepinga global dictionary of extracted data
 		data = {}
-		for path in fileListing:
-			data[path] = self.extractor.extract(path)
+		for directory in rootDirectories:
+			# If directory doesn't exist, report the issue and skip to the next one
+			if not os.path.isdir(directory):
+				print("Directory '{}' does not exist".format(directory), file=sys.stderr)
+				continue
+			# Search for the files in the directory, filter the resultant list
+			# and then extract data from the files
+			fileListing = self.searcher.search(directory)
+			for filterer in self.filterers:
+				fileListing = filterer.filter(fileListing)
+			for path in fileListing:
+				data[path] = self.extractor.extract(path)
+
 		return data

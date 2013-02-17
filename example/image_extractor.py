@@ -38,7 +38,9 @@ def main(directory, showAll):
 	"""Run image resource extraction process.
 
 	Arguments:
-	directory -- Directory containing web page soure code
+	directoriesToSearch -- List containing all of the
+						   directories containing web page
+						   soure code that need to be scanned
 	showAll -- If set to True, then all scanned files will
 			   be displayed, even if no image URLs were
 			   extracted from them. This means if this is
@@ -52,7 +54,7 @@ def main(directory, showAll):
 	extractor = ImageURLExtractor()
 	processor = FileProcessor(searcher, [ filterer ], extractor)
 	# Perform the URL extraction and display findings
-	extractedURLs = processor.process(directory)
+	extractedURLs = processor.process(directoriesToSearch)
 	for filename, imageURLs in extractedURLs.items():
 		# If nothing was found in this file and the
 		# approrpiate flag is set, skip this file
@@ -71,7 +73,17 @@ def main(directory, showAll):
 
 if __name__ == "__main__":
 	# Parse command line arguments
-	if len(sys.argv) < 2:
-		sys.exit("Usage: python {} <directory> {-a}".format(sys.argv[0]))
+	if len(sys.argv) < 3:
+		sys.exit("Usage: python {} {{ -d <directory> }} {{-a}}".format(sys.argv[0]))
+	
+	directoriesToSearch = [] # store all directories requesed 
+	for i in range(1, len(sys.argv)):
+		if sys.argv[i] == "-d" and i < (len(sys.argv) - 1):
+			i += 1 # go to next argumentt, the actual directory
+			directoriesToSearch.append( sys.argv[i] )
 	showAll = ("-a" in sys.argv)
-	main(sys.argv[1], showAll)
+
+	if len(directoriesToSearch) == 0:
+		sys.exit("No directories to search specified")
+
+	main(directoriesToSearch, showAll)
