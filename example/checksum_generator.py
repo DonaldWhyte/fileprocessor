@@ -20,7 +20,7 @@ class ChecksumGenerator(extractors.ByteStreamExtractor):
 		blockSize -- Amount of data to read it at once when
 					 generating checksum. Should be fairly
 					 low if the machine does not have much
-					 memory.
+					 memory. (default: 65536)
 
 		"""
 		self.blockSize = blockSize
