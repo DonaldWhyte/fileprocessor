@@ -7,6 +7,18 @@ import shutil
 
 from fileprocessor.searchers import *
 
+
+
+class MockSearcher(Searcher):
+
+	def __init__(self, filesToReturn):
+		self.filesToReturn = filesToReturn
+
+	def search(self, rootDirectory):
+		return self.filesToReturn
+
+
+
 class TestFileSearcher(unittest.TestCase):
 
 	def setUp(self):
@@ -61,3 +73,37 @@ class TestFileSearcher(unittest.TestCase):
 		self.assertEqual(self.nonRecursiveSearcher.search(".test_dir"), NONRECURSIVE_RESULT)
 		# Test valid directory with a RECURSIVE search
 		self.assertEqual(self.recursiveSearcher.search(".test_dir"), RECURSIVE_RESULT)
+
+
+class TestCompositeSearcher(unittest.TestCase):
+
+	def setUp(self):
+		# Create list of simple, atomic searchers and create a
+		# composite searcher to use them
+		self.atomicSearchers = [
+			MockSearcher(["one.js", "hello.html", "something.bin"]),
+			MockSearcher([]), # nothing returned
+			MockSearcher(["README"]),
+			MockSearcher(84395) # invalid value
+		]
+		self.compositeSearcher = CompositeSearcher(self.atomicSearchers)
+
+	def tearDown(self):
+		self.atomicSearchers = None
+		self.compositeSearcher = None
+
+	def test_construction(self):
+		# Test constructor without iterable object given
+		with self.assertRaises(TypeError):
+			CompositeSearcher(3453)
+		# Test constructed searcher has correct attributes
+		self.assertEqual(self.compositeSearcher.searchers, self.atomicSearchers)
+
+	def test_search(self):
+		# Test that composite searcher can still return a result even
+		# if one searcher returns nothing and one returns an invalid value
+		EXPECTED_RESULT = set( ["one.js", "hello.html", "something.bin", "README"] )
+		self.assertEqual(self.compositeSearcher.search("something"), EXPECTED_RESULT)
+
+		# No need to test invalid type or if directory exists, the responsibilty
+		# for checking that value is up to the atomic searchers
