@@ -6,7 +6,6 @@ Created to provide an example of how to use the fileprocessor module.
 """
 
 import sys
-sys.path.append(".") # TODO: remove
 import hashlib
 from fileprocessor import FileProcessor, searchers, filterers, extractors
 

@@ -7,7 +7,6 @@ Created to provide an example of how to use the fileprocessor module.
 
 import sys
 import re
-sys.path.append(".") # TODO: remove
 from fileprocessor import FileProcessor, searchers, filterers, extractors
 
 class ImageURLExtractor(extractors.TextExtractor):
