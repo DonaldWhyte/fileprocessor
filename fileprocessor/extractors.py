@@ -20,9 +20,12 @@ class ByteExtractor(Extractor):
 		This is determined by the concrete subclasses of Extractor.
 
 		Arguments:
-		filename -- Name of the file to extract data from
+		filename -- Name of the file to extract data from.
+					TypeError is raised if this is not a string.
 
 		"""
+		if not isinstance(filename, str):
+			raise TypeError("Filename must be a string")
 		# Open file as BINARY and read it all in at once
 		with open(filename, "rb") as f:
 			data = f.read()
@@ -58,8 +61,11 @@ class ByteStreamExtractor(Extractor):
 
 		Arguments:
 		filename -- Name of the file to extract data from
+					TypeError is raised if this is not a string.
 
 		"""
+		if not isinstance(filename, str):
+			raise TypeError("Filename must be a string")
 		# Open file and read it all in at once
 		with open(filename, "rb") as f:
 			return self.extractFromStream(f)
@@ -97,8 +103,11 @@ class TextExtractor(Extractor):
 
 		Arguments:
 		filename -- Name of the file to extract data from
+					TypeError is raised if this is not a string.
 
 		"""
+		if not isinstance(filename, str):
+			raise TypeError("Filename must be a string")
 		# Open file as TEXT and read it all in at once
 		with open(filename, "r") as f:
 			data = f.read()
@@ -134,8 +143,11 @@ class TextStreamExtractor(Extractor):
 
 		Arguments:
 		filename -- Name of the file to extract data from
+					TypeError is raised if this is not a string.
 
 		"""
+		if not isinstance(filename, str):
+			raise TypeError("Filename must be a string")
 		# Open file and read it all in at once
 		with open(filename, "r") as f:
 			return self.extractFromStream(f)

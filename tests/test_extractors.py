@@ -69,6 +69,9 @@ class TestByteExtractor(unittest.TestCase):
 		removeTestFile()
 
 	def test_extract(self):
+		# Test invalid type
+		with self.assertRaises(TypeError):
+			self.byteExtractor.extract(44)		
 		# Test with non-existent file
 		with self.assertRaises(IOError):
 			self.byteExtractor.extract("some_file.txt")
@@ -96,6 +99,9 @@ class TestByteStreamExtractor(unittest.TestCase):
 		removeTestFile()
 
 	def test_extract(self):
+		# Test invalid type
+		with self.assertRaises(TypeError):
+			self.streamExtractor.extract(44)
 		# Test with non-existent file
 		with self.assertRaises(IOError):
 			self.streamExtractor.extract("some_file.txt")
@@ -128,6 +134,9 @@ class TestTextExtractor(unittest.TestCase):
 		removeTestFile()
 
 	def test_extract(self):
+		# Test invalid type
+		with self.assertRaises(TypeError):
+			self.textExtractor.extract(44)
 		# Test with non-existent file
 		with self.assertRaises(IOError):
 			self.textExtractor.extract("some_file.txt")
@@ -155,6 +164,9 @@ class TestTextStreamExtractor(unittest.TestCase):
 		removeTestFile()
 
 	def test_extract(self):
+		# Test invalid type
+		with self.assertRaises(TypeError):
+			self.streamExtractor.extract(44)
 		# Test with non-existent file
 		with self.assertRaises(IOError):
 			self.streamExtractor.extract("some_file.txt")
