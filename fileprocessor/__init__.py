@@ -6,6 +6,10 @@ import os
 import collections
 
 
+# Constant which specifies which version of fileprocessor this is
+VERSION = "0.1"
+
+
 # Done so importing modules from library is easier
 def getSubModulesAndPackages():
 	"""Return list of all modules and packages contained within current package."""

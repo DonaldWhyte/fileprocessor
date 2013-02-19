@@ -1,1 +1,34 @@
-TODO
+This very simple Python pacakge provides a framework for batch processing of
+files. Exactly how the files are processed and what data is extracted from
+them is up to the developer. fileprocessor just provides a harness that eases
+the process of getting/setting the data you want from files.
+
+
+DOCUMENTATION
+-------------
+
+Overview of fileprocessor's design can be found here:
+http://code.google.com/p/fileprocessor/wiki/DesignOverview
+
+Installation instructions can be found here:
+http://code.google.com/p/fileprocessor/wiki/InstallationGuide
+
+Usage instructions can be found here:
+http://code.google.com/p/fileprocessor/wiki/UsageGuide
+
+
+SOURCE
+------
+
+Snapshots and significant releases can be downloaded at:
+http://code.google.com/p/fileprocessor/downloads/list
+
+To clone the up-to-date repository, you must have Mercurial installed and use:
+hg clone http://code.google.com/p/fileprocessor
+
+
+LICENCE
+-------
+
+fileprocess is licensed under the MIT License.
+See LICENCE for more information.
