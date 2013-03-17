@@ -58,6 +58,59 @@ class TestExcludeListFilterer(unittest.TestCase):
 		self.assertEqual(self.listFilterer.filter(self.originalFileListing),
 			FILTERED_LISTING)
 
+class TestIncludeListFilterer(unittest.TestCase):
+
+	def setUp(self):
+		self.originalFileListing = [
+			# Stuff that should be allowed
+			"/exact_filename_path.txt",
+			"/root/hello/something.txt", "/root/hello/other.txt",
+			"test_fileprocessor.py",
+			"/root/hello.txt",
+			# Stuff that should be filtered
+			"/root/test_something.py", 
+			"/root/byebye.txt~",
+			"/root/stuff/five.cpp",
+			"/root/toto/test.db"
+		]
+		self.includeList = [
+			"/exact_filename_path.txt", # exact path
+			"/root/hello/*", # wildcard at end
+			"test_*.py", # wildcard in middle
+			"*.txt", # wildcard at the beginning
+		]
+		self.emptyListFilterer = IncludeListFilterer([])
+		self.listFilterer = IncludeListFilterer(self.includeList)
+
+	def tearDown(self):
+		self.originalFileListing = None
+		self.includeList = None
+		self.emptyListFilterer = None
+		self.listFilterer = None
+
+	def test_construction(self):
+		# Test invalid type
+		with self.assertRaises(TypeError):
+			IncludeListFilterer(4543)
+		# Test properties were assigned correctly
+		self.assertEqual(self.emptyListFilterer.includeList, [])
+		self.assertEqual(self.listFilterer.includeList, self.includeList)
+
+	def test_filter(self):
+		FILTERED_LISTING = [ 
+			"/exact_filename_path.txt",
+			"/root/hello/something.txt", "/root/hello/other.txt",
+			"test_fileprocessor.py",
+			"/root/hello.txt"
+		]
+
+		# Test with invalid type
+		with self.assertRaises(TypeError):
+			self.emptyListFilterer.filter(543)
+		# Test different filterers
+		self.assertEqual(self.emptyListFilterer.filter(self.originalFileListing), [])
+		self.assertEqual(self.listFilterer.filter(self.originalFileListing), FILTERED_LISTING)
+
 class TestExtensionFilterer(unittest.TestCase):
 
 	def setUp(self):

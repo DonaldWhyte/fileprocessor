@@ -16,7 +16,8 @@ class ExcludeListFilterer(Filterer):
 
 		Arguments:
 		excludeList -- List of glob patterns which will be used as
-					   a a black list to remove files from the listing.
+					   as a black list to remove files in the list
+					   from the final listing.
 
 		"""
 		if not isinstance(excludeList, collections.Iterable):
@@ -55,6 +56,47 @@ class ExcludeListFilterer(Filterer):
 				i += 1
 
 		return newListing
+
+
+class IncludeListFilterer(Filterer):
+
+	"""Filterer which filters files that don't match glob patterns."""
+
+	def __init__(self, includeList):
+		"""Construct instance of IncludeListFilterer.
+
+		Arguments:
+		includeList -- List of glob patterns which will be used as
+					   as a white list to remove files NOT in the list
+					   from the final listing.
+
+		"""
+		if not isinstance(includeList, collections.Iterable):
+			raise TypeError("Inclusion list should be an iterable collection of strings")
+		self.includeList = includeList
+
+	def filter(self, fileListing):
+		"""Filter file listing based on stored glob patterns.
+
+		Returns NEW list containing the the files which passed the filter.
+
+		Arguments:
+		fileListing -- A list containing the absolute paths of the
+					   files to filter.
+
+		"""
+		if not isinstance(fileListing, collections.Iterable):
+			raise TypeError("List of files to filter should be an iterable collection of strings")
+
+		# Add any files from the original listing which match
+		# one of the whitelist patterns.
+		newListing = []
+		for elem in fileListing:
+			for pattern in self.includeList:
+				if fnmatch.fnmatch(elem, pattern):
+					newListing.append(elem)
+					break
+		return newListing		
 
 
 class ExtensionFilterer(Filterer):
