@@ -2,6 +2,16 @@
 
 This very simple Python pacakge provides a framework for batch processing of files. Exactly how the files are processed and what data is extracted from them is up to the developer. fileprocessor just provides a harness that eases the process of getting/setting the data you want from files.
 
+### Install
+
+**NOTE**: fileprocessor only supports Python 3.0.0+. There is *no* Python 2 support!
+
+Clone the repository and execute the setup file:
+
+```
+python setup.py install
+```
+
 ### Design Overview
 
 fileprocessor aims to streamline the task of generating or extracting data from a large collection of files by providing a standard harness which can easily be extended to meet the user's specific requirements.
@@ -12,7 +22,7 @@ This is achieved by separating each step of this process into distinct component
 
 Note that `source` is a generic term which refers to a location which contains. For most use cases, `source` means directories and `resource` means files. However, this may not always be the case. For example, `source` could be a URL and `resource` could be data found within that URL.
 
-Process:
+##### Process:
 
 1. User inputs list of sources
 2. `Searcher` component constructs a list of resources contained within the sources
@@ -20,7 +30,7 @@ Process:
 4. Each resource is ran through an `Extractor`, which reads the resource data, extracts/processes the data and then returns some output for each resource
 5. The names and extracted/processed data of each resource is then returned to the user
 
-Component Summary:
+##### Component Summary:
 
 * `FileProcessor` -- high-level interface which starts the data extraction process. The sources to search for resources in is given to this.
 * `Searcher` -- components which search for resources within the given sources
