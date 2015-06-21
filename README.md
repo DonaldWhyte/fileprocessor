@@ -151,7 +151,7 @@ where `[TEST_NAME]` is the name of the test file without the "test_" prefix or "
 
 ### Source Code
 
-Git repository can be accessed [https://github.com/DonaldWhyte/fileprocessor](here).
+Git repository can be accessed here: https://github.com/DonaldWhyte/fileprocessor
 
 ### License
 
