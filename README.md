@@ -127,8 +127,6 @@ processedData = processor.process(sources)
 
 After running this script, `processedData` would contain a dicitonary where the keys are the filenames of found PNG/GIF files and the value would be the number of bytes the respective files contain.
 
-For further examples, see ChecksumGenerator and ImageLinkExtraction.
-
 ### Examples
 
 For concrete examples on how this design is used to process directories of files, check out of the "examples" folder of this repo.
